@@ -25,4 +25,4 @@ A lightweight web application that analyzes food ratings to identify best and wo
 - Designed for future integration with Google Gemini
 
 ## Live Demo
-[[Streamlit App Link](https://campus-mess-feedback-analyzer-exhtqr6yo3zkjchzud8w27.streamlit.app/)
+[[Streamlit App Link](https://campus-mess-feedback-analyzer-exhtqr6yo3zkjchzud8w27.streamlit.app/)]
