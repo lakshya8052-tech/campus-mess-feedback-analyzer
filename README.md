@@ -15,6 +15,8 @@ A data-driven web app that analyzes student feedback and shows insights using vi
 
 ## Google Technology Used
 Google Colab
+Google Sheets – data source
+Gemini API – AI enhancement
 
 ## Impact
 Helps mess management improve food quality based on real feedback.
