@@ -16,21 +16,13 @@ st.set_page_config(
 st.title("Campus Mess Food Feedback Analyzer")
 
 # -----------------------------
-# Fake dataset
+# Initialize session state
 # -----------------------------
 if 'df' not in st.session_state:
     st.session_state.df = pd.DataFrame({
         "dish": ["Idli", "Rice", "Paneer", "Poha"],
         "rating": [4, 2, 5, 3]
     })
-
-df = st.session_state.df
-
-# -----------------------------
-# Display current data
-# -----------------------------
-st.subheader("Mess Food Ratings Data")
-st.dataframe(df)
 
 # -----------------------------
 # Add new rating
@@ -47,13 +39,19 @@ if st.button("Submit Rating"):
         new_row = pd.DataFrame({"dish": [dish_name], "rating": [rating_value]})
         st.session_state.df = pd.concat([st.session_state.df, new_row], ignore_index=True)
         st.success(f"Rating for '{dish_name}' added!")
-        st.experimental_rerun()  # refresh to show updated table
+
+# -----------------------------
+# Display current data
+# -----------------------------
+st.subheader("Mess Food Ratings Data")
+st.dataframe(st.session_state.df)
 
 # -----------------------------
 # Key Insights
 # -----------------------------
 st.subheader("Key Insights")
 
+df = st.session_state.df
 if not df.empty:
     best = df.loc[df["rating"].idxmax()]
     worst = df.loc[df["rating"].idxmin()]
