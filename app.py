@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # -----------------------------
-# Page Configuration
+# Page config (must be first)
 # -----------------------------
 st.set_page_config(
     page_title="Campus Mess Food Feedback Analyzer",
@@ -10,59 +10,65 @@ st.set_page_config(
     layout="centered"
 )
 
-# -----------------------------
-# Title
-# -----------------------------
-st.title("Campus Mess Food Feedback Analyzer")
+st.title("🍽️ Campus Mess Food Feedback Analyzer")
 
 # -----------------------------
-# Initialize session state
+# Initialize session state for DataFrame
 # -----------------------------
-if 'df' not in st.session_state:
-    st.session_state.df = pd.DataFrame({
-        "dish": ["Idli", "Rice", "Paneer", "Poha"],
-        "rating": [4, 2, 5, 3]
-    })
+if "df" not in st.session_state:
+    st.session_state.df = pd.DataFrame(columns=["dish", "rating"])
+
+df = st.session_state.df
 
 # -----------------------------
-# Add new rating
+# Add new rating (update if exists)
 # -----------------------------
-st.subheader("Add New Food Rating")
+st.subheader("Add / Update Food Rating")
 
 dish_name = st.text_input("Dish name")
-rating_value = st.slider("Rating", 1, 5)
+
+# Show current rating if dish exists
+if dish_name.strip() != "" and dish_name in df['dish'].values:
+    current_rating = int(df.loc[df['dish'] == dish_name, 'rating'].values[0])
+else:
+    current_rating = 3  # default rating
+
+rating_value = st.slider("Rating", 1, 5, value=current_rating)
 
 if st.button("Submit Rating"):
     if dish_name.strip() == "":
         st.warning("Please enter a dish name.")
     else:
-        new_row = pd.DataFrame({"dish": [dish_name], "rating": [rating_value]})
-        st.session_state.df = pd.concat([st.session_state.df, new_row], ignore_index=True)
-        st.success(f"Rating for '{dish_name}' added!")
+        if dish_name in df['dish'].values:
+            # Update existing rating
+            st.session_state.df.loc[df['dish'] == dish_name, 'rating'] = rating_value
+            st.success(f"✅ Rating for '{dish_name}' updated to {rating_value}!")
+        else:
+            # Add new row
+            new_row = pd.DataFrame({"dish": [dish_name], "rating": [rating_value]})
+            st.session_state.df = pd.concat([df, new_row], ignore_index=True)
+            st.success(f"🎉 Rating for '{dish_name}' added!")
 
 # -----------------------------
-# Display current data
+# Show all ratings
 # -----------------------------
-st.subheader("Mess Food Ratings Data")
-st.dataframe(st.session_state.df)
+st.subheader("All Food Ratings")
 
-# -----------------------------
-# Key Insights
-# -----------------------------
-st.subheader("Key Insights")
+if df.empty:
+    st.info("No ratings added yet.")
+else:
+    # Sort by rating descending
+    st.dataframe(df.sort_values(by="rating", ascending=False).reset_index(drop=True))
 
-df = st.session_state.df
-if not df.empty:
-    best = df.loc[df["rating"].idxmax()]
-    worst = df.loc[df["rating"].idxmin()]
+    # -----------------------------
+    # Key Insights
+    # -----------------------------
+    st.subheader("Key Insights")
+
+    best = df.loc[df['rating'].idxmax()]
+    worst = df.loc[df['rating'].idxmin()]
+    avg_rating = df['rating'].mean()
 
     st.write(f"🔹 Highest rated dish: **{best['dish']}** ({best['rating']}/5)")
     st.write(f"🔹 Lowest rated dish: **{worst['dish']}** ({worst['rating']}/5)")
-else:
-    st.write("No ratings yet.")
-
-# -----------------------------
-# Ratings Visualization
-# -----------------------------
-st.subheader("Ratings Visualization")
-st.bar_chart(df.set_index("dish"))
+    st.write(f"🔹 Average rating: **{avg_rating:.2f}/5**")
