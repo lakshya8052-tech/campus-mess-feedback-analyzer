@@ -10,13 +10,14 @@ A data-driven web app that analyzes student feedback and shows insights using vi
 - Python
 - Streamlit
 - Pandas
-- Matplotlib
-- Google Colab
 
 ## Google Technology Used
 Google Colab
+
+## Google AI Tools
 Google Sheets – data source
 Gemini API – AI enhancement
+(Rule-based data analysis logic (AI-inspired), with future scope for Google Gemini.)
 
 ## Impact
 Helps mess management improve food quality based on real feedback.
