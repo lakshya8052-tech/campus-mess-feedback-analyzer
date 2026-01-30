@@ -44,3 +44,17 @@ if st.button("Submit Rating"):
             new_row = pd.DataFrame({"dish": [dish_name], "rating": [rating_value]})
             st.session_state.df = pd.concat([st.session_state.df, new_row], ignore_index=True)
         st.rerun() # Refresh to show new data at the top
+
+
+
+# -----------------------------
+# Management Action Alerts
+# -----------------------------
+st.subheader("⚠️ Management Action Alerts")
+low_rated = df[df["rating"] <= 2]
+
+if not low_rated.empty:
+    for _, row in low_rated.iterrows():
+        st.error(f"Action Required: Improve or Replace **{row['dish']}** (Critical Rating: {row['rating']})")
+else:
+    st.success("✅ All current dishes are performing above critical levels.")
