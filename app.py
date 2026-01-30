@@ -53,6 +53,15 @@ if st.button("Submit Rating"):
 # Display current data
 # -----------------------------
 st.subheader("Mess Food Ratings Data")
+
+# Add this line before your st.dataframe(st.session_state.df) call
+def get_sentiment(r):
+    return "🟢 Positive" if r >= 4 else "🟡 Neutral" if r == 3 else "🔴 Negative"
+
+df_display = st.session_state.df.copy()
+df_display["Sentiment"] = df_display["rating"].apply(get_sentiment)
+st.dataframe(df_display) # Use this copy for the display
+
 st.dataframe(st.session_state.df)
 
 # -----------------------------
@@ -69,6 +78,19 @@ if not df.empty:
     st.write(f"🔹 Lowest rated dish: **{worst['dish']}** ({worst['rating']}/5)")
 else:
     st.write("No ratings yet.")
+
+
+# -----------------------------
+# Management Action Alerts
+# -----------------------------
+st.subheader("⚠️ Management Action Alerts")
+low_rated = df[df["rating"] <= 2]
+
+if not low_rated.empty:
+    for _, row in low_rated.iterrows():
+        st.error(f"Action Required: Improve or Replace **{row['dish']}** (Critical Rating: {row['rating']})")
+else:
+    st.success("✅ All current dishes are performing above critical levels.")
 
 # -----------------------------
 # Ratings Visualization
