@@ -1,23 +1,28 @@
-# Campus Mess Food Feedback Analyzer
+# Campus Mess Food Feedback Analyzer 🍽️
 
 ## Problem
-Mess feedback is unstructured and difficult to analyze.
+Mess food feedback is unstructured and difficult to analyze, leading to repeated quality issues and low student satisfaction.
 
 ## Solution
-A data-driven web app that analyzes student feedback and shows insights using visualizations.
+A lightweight web application that analyzes food ratings to identify best and worst-performing dishes using data-driven insights.
+
+## Features
+- Interactive rating input
+- Automatic identification of best & worst dishes
+- Visual representation of ratings
+- Simple and scalable design
 
 ## Tech Stack
 - Python
-- Streamlit
 - Pandas
+- Streamlit
 
-## Google Technology Used
-Google Colab
+## Google Technologies Used
+- Google Colab (development and testing)
 
 ## Google AI Tools
-Google Sheets – data source
-Gemini API – AI enhancement
-(Rule-based data analysis logic (AI-inspired), with future scope for Google Gemini.)
+- Rule-based analytical logic inspired by AI workflows  
+- Designed for future integration with Google Gemini
 
-## Impact
-Helps mess management improve food quality based on real feedback.
+## Live Demo
+[[Streamlit App Link](https://campus-mess-feedback-analyzer-exhtqr6yo3zkjchzud8w27.streamlit.app/)]
