@@ -24,30 +24,6 @@ if 'df' not in st.session_state:
         "rating": [4, 2, 5, 3]
     })
 
-# -----------------------------
-# Add new rating (update if exists)
-# -----------------------------
-st.subheader("Add New Food Rating")
-
-dish_name = st.text_input("Dish name")
-rating_value = st.slider("Rating", 1, 5)
-
-if st.button("Submit Rating"):
-    if dish_name.strip() == "":
-        st.warning("Please enter a dish name.")
-    else:
-        # Check if dish already exists
-        df = st.session_state.df
-        if dish_name in df['dish'].values:
-            # Update existing rating
-            st.session_state.df.loc[df['dish'] == dish_name, 'rating'] = rating_value
-            st.success(f"Rating for '{dish_name}' updated to {rating_value}!")
-        else:
-            # Add new row
-            new_row = pd.DataFrame({"dish": [dish_name], "rating": [rating_value]})
-            st.session_state.df = pd.concat([df, new_row], ignore_index=True)
-            st.success(f"Rating for '{dish_name}' added!")
-
 
 # -----------------------------
 # Display current data
@@ -80,10 +56,36 @@ else:
     st.write("No ratings yet.")
 
 
+
+# -----------------------------
+# Add new rating (update if exists)
+# -----------------------------
+st.subheader("Add New Food Rating")
+
+dish_name = st.text_input("Dish name")
+rating_value = st.slider("Rating", 1, 5)
+
+if st.button("Submit Rating"):
+    if dish_name.strip() == "":
+        st.warning("Please enter a dish name.")
+    else:
+        # Check if dish already exists
+        df = st.session_state.df
+        if dish_name in df['dish'].values:
+            # Update existing rating
+            st.session_state.df.loc[df['dish'] == dish_name, 'rating'] = rating_value
+            st.success(f"Rating for '{dish_name}' updated to {rating_value}!")
+        else:
+            # Add new row
+            new_row = pd.DataFrame({"dish": [dish_name], "rating": [rating_value]})
+            st.session_state.df = pd.concat([df, new_row], ignore_index=True)
+            st.success(f"Rating for '{dish_name}' added!")
+
+
 # -----------------------------
 # Management Action Alerts
 # -----------------------------
-st.subheader("⚠️ Management Action Alerts")
+st.subheader("Management Action Alerts")
 low_rated = df[df["rating"] <= 2]
 
 if not low_rated.empty:
